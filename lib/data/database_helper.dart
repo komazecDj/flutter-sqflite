@@ -44,7 +44,24 @@ class DatabaseHelper {
     Database dbClient = await db;
     List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
     print(list);
+    for(Map mp in list){
+      User usr = User.map(mp);
+      print(usr.username);
+    }
     return list;
+  }
+
+  //getAll  
+  Future<bool> validateUser(User user) async {
+    Database dbClient = await db;
+    List<Map> list = await dbClient.rawQuery('SELECT * FROM User');
+    for(Map mp in list){
+      User usr = User.map(mp);
+      if(user.username == usr.username && user.password == user.password){
+        return true;
+      }
+    }
+    return false;
   }
 
   //deletion

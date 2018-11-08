@@ -100,12 +100,11 @@ class _LoginPageState extends State<LoginPage> implements LoginPageContract {
 
   @override
   void onLoginSuccess(User user) async {
-    _showSnacksBar(user.username.toString());
-    setState(() {
-      _isLoading = false;
-    });
     DatabaseHelper db = DatabaseHelper();
+    if(await db.validateUser(user)){
+      Navigator.of(context).pushNamed('/home');
+    }
     await db.saveUser(user);
-    Navigator.of(context).pushNamed('/home'); 
+    _showSnacksBar('User is now registered, press log in again');
   }
-} 
+}
